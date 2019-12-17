@@ -1,13 +1,15 @@
 <template>
-  <div class="sidebar">
-    <el-button class="toggle" @click.stop="isCollapse=!isCollapse"></el-button>
+  <div class="sidebar" :class="{'collapsed': isCollapse}">
+    <el-button class="toggle" @click.stop="isCollapse=!isCollapse">
+      <i :class="{'el-icon-arrow-right': isCollapse, 'el-icon-arrow-left': !isCollapse}"></i>
+    </el-button>
     <el-menu 
-      :unique-opened="true"
-      default-active="1-4-1" 
+      :collapse-transition="collapseTransition"
+      :unique-opened="uniqueOpened"
+      :default-active="activeIndex" 
       background-color="#232323"
       text-color="RGBA(255,255,255,0.44)"
       active-text-color="#ffffff"
-      class="el-menu-vertical-demo" 
       @open="handleOpen" 
       @close="handleClose" 
       :collapse="isCollapse">
@@ -52,21 +54,30 @@
   export default {
     name: 'Sidebar',
     props: {
-      backgroundColor:"#545c64",
-      textColor:"#fff",
-      activeTextColor:"#ffd04b"
+      collapseTransition: {
+        type: Boolean,
+        default: false
+      },
+      uniqueOpened: {
+        type: Boolean,
+        default: true
+      }
     },
     data() {
       return {
+        activeIndex: '1-1',
         isCollapse: false
-      };
+      }
     },
     methods: {
       handleOpen(key, keyPath) {
-        console.log(key, keyPath);
+        console.log(key, keyPath)
       },
       handleClose(key, keyPath) {
-        console.log(key, keyPath);
+        console.log(key, keyPath)
+      },
+      setActiveIndex(value) {
+        this.activeIndex = value
       }
     }
   }
@@ -106,13 +117,28 @@
     line-height: 20px;
     font-size: .75rem;
     font-weight: 400;
-    line-height: 1.5;
   }
 
   .sidebar .toggle {
     position: absolute;
     bottom: 50px;
-    right: 0;
+    right: 1px;
+    width: 90px;
+    height: 30px;
+    margin: 0;
+    padding: 0;
+    line-height: 30px;
+    color: rgba(255,255,255,.6);
+    background: #181818;
+    border: none;
+    border-radius: 20px 0 0 20px;
+    z-index: 1;
   }
 
+  .sidebar.collapsed .toggle {
+    width: 30px;
+    left: 20px;
+    border-radius: 20px;
+    background-color: #4d4d4d;
+  }
 </style>
