@@ -13,39 +13,22 @@
       @open="handleOpen" 
       @close="handleClose" 
       :collapse="isCollapse">
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span slot="title">导航一</span>
-        </template>
-
-        <el-menu-item index="1-1">选项1</el-menu-item>
-        <el-menu-item index="1-2">选项2</el-menu-item>
-        <el-menu-item index="1-3">选项3</el-menu-item>
-      </el-submenu>
-
-      <el-submenu index="8">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span slot="title">导航一</span>
-        </template>
-
-        <el-menu-item index="8-1">选项1</el-menu-item>
-        <el-menu-item index="8-2">选项2</el-menu-item>
-        <el-menu-item index="8-3">选项3</el-menu-item>
-      </el-submenu>
-      <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
-        <span slot="title">导航二</span>
-      </el-menu-item>
-      <el-menu-item index="3" disabled>
-        <i class="el-icon-document"></i>
-        <span slot="title">导航三</span>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <i class="el-icon-setting"></i>
-        <span slot="title">导航四</span>
-      </el-menu-item>
+      <div :key="item[defaultProps.id]" v-for="item in menuData">
+        <el-submenu :index="item[defaultProps.id]" v-if="item && item[defaultProps.children] && item[defaultProps.children].length">
+          <template slot="title">
+            <i :class="item[defaultProps.icon]"></i>
+            <span slot="title">{{item[defaultProps.name]}}</span>
+          </template>
+          <el-menu-item :index="subItem[defaultProps.id]" v-for="subItem in item[defaultProps.children]" :key="subItem[defaultProps.id]">
+            {{subItem[defaultProps.name]}}
+          </el-menu-item>
+        </el-submenu>
+        <el-menu-item :index="item[defaultProps.id]" v-else>
+          <i :class="item[defaultProps.icon]"></i>
+          <span slot="title">{{item[defaultProps.name]}}</span>
+        </el-menu-item>
+      </div>
+      
     </el-menu>
   </div>
 </template>
@@ -61,12 +44,67 @@
       uniqueOpened: {
         type: Boolean,
         default: true
+      },
+      defaultProps: {
+        type: Object,
+        default: () => {
+          return {
+            id: 'id',
+            name: 'name',
+            children: 'children',
+            icon: 'icon'
+          }
+        }
       }
     },
     data() {
       return {
-        activeIndex: '1-1',
-        isCollapse: false
+        activeIndex: '5',
+        isCollapse: false,
+        menuData: [
+          {
+            name: 'a',
+            id: '1',
+            children: [
+              {
+                name: 'x',
+                id: '2'
+              },{
+                name: 'y',
+                id: '3'
+              },{
+                name: 'z',
+                id: '4'
+              },{
+                name: '&',
+                id: '5'
+              }
+            ]
+          },
+          {
+            name: 'b',
+            id: '6'
+          },
+          {
+            name: 'c',
+            id: '7',
+            children: [
+              {
+                name: 'j',
+                id: '8'
+              },{
+                name: 'k',
+                id: '9'
+              },{
+                name: 'l',
+                id: '0'
+              },{
+                name: '#',
+                id: 's'
+              }
+            ]
+          }
+        ]
       }
     },
     methods: {
