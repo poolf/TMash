@@ -12,6 +12,7 @@ import '@fouro/elx/src/utils/element-loader'
 
 import Components from '@/components'
 import { convertI18nMessage } from '@fouro/all-in-one/src/utils/kit'
+import '@/style/theme/primary.css'
 import '@/style/global.css'
 
 Vue.config.productionTip = false
@@ -36,7 +37,7 @@ new Vue({
   i18n,
   components: { App },
   template: '<App/>',
-
+  /*
   created() {
     this.$store.dispatch('GetLocaleList').then(res => {
       let langRequests = []
@@ -58,4 +59,5 @@ new Vue({
       this.$store.commit('SET_APP_STATUS', 'ok')
     })
   },
+*/
 })
